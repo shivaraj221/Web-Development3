@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Altibbe Inc</title>
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: white;
+      color: black;
+      overflow-x: hidden;
+    }
+
+    .magnetic-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .magnetic-img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 110vw;
+      height: 110vh;
+      object-fit: cover;
+      transform: translate(-50%, -50%);
+      transition: transform 0.3s ease-out;
+      z-index: 1;
+    }
+
+    .navbar {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+      background-color: rgba(20, 20, 20, 0.95);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      flex-wrap: wrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: hsl(0, 28%, 92%);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 18px;
+    }
+
+    .nav-links a:hover {
+      color: #2c73df;
+    }
+
+    .navbar-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .navbar-buttons button {
+      background: transparent;
+      border: 2px solid #f8f5f5;
+      color: #fcf3f3;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-buttons button:hover {
+      background-color: #2c73df;
+      color: white;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #2c73df;
+    }
+
+    .hero {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 2;
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 200px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: black;
+    }
+
+    .hero p {
+      font-size: 24px;
+      margin-top: 10px;
+      color: #333;
+    }
+
+    .hero button {
+      margin-top: 20px;
+      border: 2px solid #000;
+      color: black;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .hero button:hover {
+      background-color: #2c73df;
+      color: white;
+      box-shadow: 0 0 10px #2c73df;
+    }
+
+    .footer-combo {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 100px 20px;
+      gap: 50px;
+      flex-wrap: wrap;
+      background: white;
+    }
+
+    .footer-content {
+      max-width: 700px;
+    }
+
+    .footer-heading-text {
+      font-size: 40px;
+      font-weight: 800;
+      color: black;
+      margin-bottom: 20px;
+    }
+
+    .footer-description {
+      font-size: 18px;
+      color: #333;
+      line-height: 1.6;
+      background-color: #f8d7da;
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    .card {
+      position: relative;
+    }
+
+    .card .slide {
+      width: 300px;
+      height: 200px;
+      transition: 0.5s;
+    }
+
+    .card .icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgb(255, 187, 0);
+    }
+
+    .card .icon .logo-img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+
+    .card .slide.slide1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+      transform: translateY(100px);
+    }
+
+    .card:hover .slide.slide1 {
+      transform: translateY(0px);
+    }
+
+    .card .slide.slide2 {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      transition: 0.8s;
+      transform: translateY(-100px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      background: #fff;
+    }
+
+    .card:hover .slide.slide2 {
+      transform: translateY(0);
+    }
+
+    .card .slide.slide2::after {
+      content: "";
+      position: absolute;
+      width: 30px;
+      height: 4px;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2c73df;
+    }
+
+    .card .slide.slide2 .content h3 {
+      text-align: center;
+      color: #414141;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .verify-btn {
+      background-color: #f7c600;
+      color: #000;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(247, 198, 0, 0.4);
+    }
+
+    .verify-btn:hover {
+      background-color: #e6b400;
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(230, 180, 0, 0.6);
+    }
+
+    .login-section {
+      width: 100%;
+      padding: 80px 20px;
+      background-color: #d4f4dd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      max-width: 400px;
+      width: 100%;
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .login-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .login-header h2 {
+      font-size: 28px;
+      color: #2c73df;
+      margin-bottom: 10px;
+    }
+
+    .login-header p {
+      color: #666;
+    }
+
+    .login-form .form-group {
+      margin-bottom: 20px;
+    }
+
+    .login-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    .login-form input:focus {
+      border-color: #2c73df;
+      outline: none;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #2c73df;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .login-btn:hover {
+      background-color: #1a5bbf;
+    }
+
+    .login-footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+
+    .login-footer a {
+      color: #2c73df;
+      text-decoration: none;
+    }
+
+    .login-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .hero h1 {
+        font-size: 100px;
+      }
+
+      .hero p {
+        font-size: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 20px;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      .navbar-buttons {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+      }
+
+      .hero {
+        top: 55%;
+        width: 90%;
+        padding: 10px;
+      }
+
+      .hero h1 {
+        font-size: 60px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .hero button {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+
+      .magnetic-img {
+        width: 140vw;
+        height: 140vh;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 42px;
+      }
+
+      .hero p {
+        font-size: 14px;
+      }
+
+      .navbar-buttons button,
+      .hero button {
+        font-size: 14px;
+        padding: 8px 16px;
+      }
+
+      .nav-links a {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="magnetic-container">
+    <img src="vecteezy_flat-lay-vegetables-on-white-background-food-and-diet_33027513.jpg" alt="Magnetic Background" class="magnetic-img" />
+    <div class="navbar">
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Hedamo</a>
+        <a href="#">Blog</a>
+        <a href="#">Contact Us</a>
+      </div>
+      <div class="navbar-buttons">
+        <button>Get In Touch</button>
+        <button>Know More</button>
+      </div>
+    </div>
+    <div class="hero">
+      <h1>ALTIBBE</h1>
+      <p>Be Transparent, Get a Hedamo Review</p>
+      <button>Get In Touch</button>
+    </div>
+  </div>
+
+  <div class="footer-combo">
+    <div class="card">
+      <div class="slide slide1">
+        <div class="content">
+          <div class="icon">
+            <img src="Alttibe_logo-removebg-preview (1).png" alt="Logo" class="logo-img" />
+          </div>
+        </div>
+      </div>
+      <div class="slide slide2">
+        <div class="content">
+          <h3>Hedamo Review</h3>
+          <center><button class="verify-btn">Get Verified</button></center>
+        </div>
+      </div>
+    </div>
+    <div class="footer-content">
+      <h2 class="footer-heading-text">Altibbe Inc Health Ecology</h2>
+      <p class="footer-description">
+        Altibbe Inc. is redefining health and transparency in the post-pandemic world. Rooted in innovation and timeless wisdom, we empower consumers to make informed choices by ensuring complete transparency in food and wellness products. <br /><br /> Our mission, "Health for Humanity," drives us to create tools that connect people with health-focused producers through sustainable practices. From organic farms to modern techniques, we highlight excellence in agriculture, livestock, and farm technology to build a healthier, more transparent future.
+      </p>
+    </div>
+  </div>
+
+  <div style="background-color: #000">
+    <section class="login-section">
+      <div class="login-container">
+        <div class="login-header">
+          <h2>Welcome Back</h2>
+          <p>Please login to your Altibbe account</p>
+        </div>
+        <form class="login-form">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="Enter your email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required />
+          </div>
+          <button type="submit" class="login-btn">Login</button>
+        </form>
+        <div class="login-footer">
+          <p>Don't have an account? <a href="#">Sign up</a></p>
+          <p><a href="#">Forgot password?</a></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const container = document.querySelector('.magnetic-container');
+    const image = document.querySelector('.magnetic-img');
+
+    function applyMagneticEffect(x, y) {
+      const rect = container.getBoundingClientRect();
+      const offsetX = x - rect.left - rect.width / 2;
+      const offsetY = y - rect.top - rect.height / 2;
+      const strength = 0.015;
+      const maxMove = 30;
+      const moveX = Math.max(Math.min(offsetX * strength, maxMove), -maxMove);
+      const moveY = Math.max(Math.min(offsetY * strength, maxMove), -maxMove);
+      image.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+    }
+
+    function resetImage() {
+      image.style.transform = 'translate(-50%, -50%)';
+    }
+
+    container.addEventListener('mousemove', (e) => applyMagneticEffect(e.clientX, e.clientY));
+    container.addEventListener('mouseleave', resetImage);
+    container.addEventListener('touchmove', (e) => applyMagneticEffect(e.touches[0].clientX, e.touches[0].clientY));
+    container.addEventListener('touchend', resetImage);
+    container.addEventListener('touchcancel', resetImage);
+  </script>
+</body>
+</html>
